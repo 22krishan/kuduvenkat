@@ -89,7 +89,10 @@
     </div>
 
     <div class="panel-footer">
-      <button class="btn btn-primary" type="submit">Save</button>
+      <div class="btn-toolbar">
+        <button class="btn btn-primary" type="submit">Save</button>
+        <button class="btn btn-primary" type="button" (click)="loadData()">Load Data</button>
+      </div>
     </div>
   </div>
 </form>
@@ -102,9 +105,9 @@
   </tr>
   <tr>
     <td style="padding: 10px">
-      touched : {{ employeeForm.touched }} <br />
-      dirty : {{ employeeForm.touched }} <br />
-      valid : {{ employeeForm.valid }} <br />
+    touched : {{ employeeForm.touched }} <br />
+    dirty : {{ employeeForm.touched }} <br />
+    valid : {{ employeeForm.valid }} <br />
       Form Values : {{ employeeForm.value | json }}
     </td>
     <td style="padding: 10px">

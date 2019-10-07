@@ -26,4 +26,19 @@ export class CreateEmployeeComponent implements OnInit {
     console.log(this.employeeForm.value);
   }
 
+  loadData():void {
+
+    // setValue -> have to give all the formControls
+    // patchValue --> can be used to update the subset of formControls
+    this.employeeForm.setValue({
+      fullName:'krishan',
+      email:'22krishan@gmail.com',
+      skills:{
+        skillName:'React',
+        experienceInYears:5,
+        proficiency:'intermediate'
+      }
+    })
+  }
+
 }
