@@ -21,25 +21,39 @@ export class CreateEmployeeComponent implements OnInit {
         proficiency: ['']
       })
     })
+    
+    //valueChanges Observable changes from abstract class
+    this.employeeForm.get('fullName').valueChanges.subscribe((
+      value => {
+          //can be used to implement autocomplete feature 
+          //dynamically validating formControls and Form Logic
+          // calling api
+          console.log(value)
+      }
+    ))
   }
 
+  
+/*   
+   Controls can be marked as prestine, diry, disabled etc etc 
+   use abstractControl. to enlist all different properties 
+*/
+  logkeyValuePair(group: FormGroup):void {
+    Object.keys(group).forEach((key)=>{
+      const abstractControl = group.get(key)  // get the refernce of the control
+      if(abstractControl instanceof FormGroup){
+        this.logkeyValuePair(abstractControl);
+      }else{
+        console.log("Key = " + key + " value = " + abstractControl.value);
+      }
+    })
+  }
   onSubmit():void {
     console.log(this.employeeForm.value);
   }
 
   loadData():void {
-
-    // setValue -> have to give all the formControls
-    // patchValue --> can be used to update the subset of formControls
-    this.employeeForm.setValue({
-      fullName:'krishan',
-      email:'22krishan@gmail.com',
-      skills:{
-        skillName:'React',
-        experienceInYears:5,
-        proficiency:'intermediate'
-      }
-    })
+    this.logkeyValuePair(this.employeeForm);
   }
 
 }
