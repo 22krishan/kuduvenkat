@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, FormBuilder, Validators, AbstractControl } from '@angular/forms';
+import { FormGroup, FormControl, FormBuilder, Validators, AbstractControl, ValidatorFn } from '@angular/forms';
 
 
 @Component({
@@ -20,7 +20,8 @@ export class CreateEmployeeComponent implements OnInit {
       'required':'Contact Prefernce is required'
     },
     'email': {
-      'required':'Email is required'
+      'required':'Email is required',
+      'emailDomain':'Domain should be gmail.com'
     },
     'phone': {
       'required':'Phone is required'
@@ -51,7 +52,7 @@ export class CreateEmployeeComponent implements OnInit {
     this.employeeForm= this.fb.group({
       fullName: ['',[ Validators.required,Validators.maxLength(15),Validators.minLength(3)] ],
       contactPreference:['email',[Validators.required]],
-      email: ['',[Validators.required, emailDomain]],
+      email: ['',[Validators.required, emailDomain('gmail.com')]],
       phone: [''],
       skills: this.fb.group({
         skillName: ['',[ Validators.required ]],
@@ -84,11 +85,12 @@ export class CreateEmployeeComponent implements OnInit {
     }
     
     if(selectedValue === 'email'){
-      emailFormControl.setValidators([Validators.required,emailDomain]);
+      emailFormControl.setValidators([Validators.required, emailDomain('@gmail.com')]);
       phoneFormControl.clearValidators();
     }else {
       emailFormControl.clearValidators();
     }
+
     phoneFormControl.updateValueAndValidity();
     emailFormControl.updateValueAndValidity();
   }
@@ -136,12 +138,24 @@ export class CreateEmployeeComponent implements OnInit {
 
 }
 
-function emailDomain(control: AbstractControl): {[key:string]:any} | null {
-  const email:string = control.value;
-  const domain = email.substring(email.lastIndexOf('@') +1 );
-  if( email === "" || domain.toLowerCase() === 'gmail.com') {
-    return null;
-  }else {
-    return { 'emailDomain': true }
-  }
+function emailDomain(domainpassed:string): ValidatorFn {
+    return function(control:AbstractControl):{[key:string]:any} | null {
+      const email:string = control.value;
+        const domain = email.substring(email.lastIndexOf('@') +1 );
+        if( email === "" || domain.toLowerCase() === domainpassed.toLowerCase()) {
+          return null;
+        }else {
+          return { 'emailDomain': true }
+        }
+    }
 }
+
+
+// return {[key:string]:any} | null {
+//   const email:string = control.value;
+//   const domain = email.substring(email.lastIndexOf('@') +1 );
+//   if( email === "" || domain.toLowerCase() === 'gmail.com') {
+//     return null;
+//   }else {
+//     return { 'emailDomain': true }
+//   }
