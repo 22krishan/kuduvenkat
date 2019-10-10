@@ -33,6 +33,34 @@
       <div
         class="form-group"
         [ngClass]="{
+          'has-error': formErrors.contactPreference
+        }"
+      >
+        <label class="col-md-2 control-label">Contact Preference</label>
+        <div class="col-md-8">
+          <label class="radio-inline">
+            <input
+              value="email"
+              type="radio"
+              formControlName="contactPreference"
+              (blur)="logValidationErrors()"
+            />Email
+          </label>
+
+          <label class="radio-inline">
+            <input
+              value="phone"
+              type="radio"
+              formControlName="contactPreference"
+              (blur)="logValidationErrors()"
+            />Phone
+          </label>
+        </div>
+      </div>
+
+      <div
+        class="form-group"
+        [ngClass]="{
           'has-error': formErrors.email
         }"
       >
@@ -52,14 +80,34 @@
       </div>
     </div>
 
-    <div formGroupName="skills">
+    <div
+      class="form-group"
+      [ngClass]="{
+        'has-error': formErrors.phone
+      }"
+    >
+      <label class="col-sm-2 control-label" for="phone">Phone</label>
+      <div class="col-sm-8">
+        <input
+          id="email"
+          type="text"
+          class="form-control"
+          formControlName="phone"
+          (blur)="logValidationErrors()"
+        />
+      </div>
+      <div class="help-block" *ngIf="formErrors.phone">
+        {{ formErrors.phone }}
+      </div>
+    </div>
 
+    <div formGroupName="skills">
       <div
-          class="form-group"
-          [ngClass]="{
-            'has-error': formErrors.skillName
-          }"
-        >
+        class="form-group"
+        [ngClass]="{
+          'has-error': formErrors.skillName
+        }"
+      >
         <label class="col-sm-2 control-label" for="skillName">SkillName</label>
         <div class="col-sm-8">
           <input
@@ -75,13 +123,15 @@
         </div>
       </div>
 
-        <div
-          class="form-group"
-          [ngClass]="{
-            'has-error': formErrors.experienceInYears
-          }"
+      <div
+        class="form-group"
+        [ngClass]="{
+          'has-error': formErrors.experienceInYears
+        }"
+      >
+        <label class="col-sm-2 control-label" for="experienceInYears"
+          >Experience</label
         >
-        <label class="col-sm-2 control-label" for="experienceInYears">Experience</label>
         <div class="col-sm-8">
           <input
             id="experienceInYears"
@@ -96,38 +146,44 @@
         </div>
       </div>
 
-      <div class="form-group">
+      <div
+        class="form-group"
+        [ngClass]="{
+          'has-error': formErrors.experienceInYears
+        }"
+      >
         <label class="col-md-2 control-label">Proficiency</label>
         <div class="col-md-8">
           <label class="radio-inline">
             <input
               value="beginner"
               type="radio"
-              class="form-control"
               formControlName="proficiency"
               (blur)="logValidationErrors()"
-            />
+            />Beginner
           </label>
 
           <label class="radio-inline">
             <input
               value="intermediate"
               type="radio"
-              class="form-control"
               formControlName="proficiency"
               (blur)="logValidationErrors()"
-            />
+            />Intermediate
           </label>
 
           <label class="radio-inline">
             <input
               value="advanced"
               type="radio"
-              class="form-control"
               formControlName="proficiency"
               (blur)="logValidationErrors()"
-            />
+            />Advanced
           </label>
+
+          <span class="help-block" *ngIf="formErrors.experienceInYears">
+            {{ formErrors.proficiency }}
+          </span>
         </div>
       </div>
     </div>

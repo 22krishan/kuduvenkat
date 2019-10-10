@@ -16,8 +16,14 @@ export class CreateEmployeeComponent implements OnInit {
       'maxlength': 'Full name must be less than 15 characters',
       'minlength':'Ful name must be greater than 3 characters'
     },
+    'contactPreference':{
+      'required':'Contact Prefernce is required'
+    },
     'email': {
       'required':'Email is required'
+    },
+    'phone': {
+      'required':'Phone is required'
     },
     'skillName': {
       'required': 'SkillName is required'
@@ -33,6 +39,7 @@ export class CreateEmployeeComponent implements OnInit {
   formErrors =  {
     'fullName':'',
     'email':'',
+    'phone':'',
     'skillName':'',
     'experienceInYears':'',
     'proficiency':''
@@ -42,7 +49,9 @@ export class CreateEmployeeComponent implements OnInit {
   ngOnInit() {
     this.employeeForm= this.fb.group({
       fullName: ['',[ Validators.required,Validators.maxLength(15),Validators.minLength(3)] ],
-      email: ['',[ Validators.required ]],
+      contactPreference:['email',[Validators.required]],
+      email: ['',[Validators.required]],
+      phone: [''],
       skills: this.fb.group({
         skillName: ['',[ Validators.required ]],
         experienceInYears: ['',[ Validators.required ]],
@@ -55,6 +64,25 @@ export class CreateEmployeeComponent implements OnInit {
         this.logValidationErrors(this.employeeForm);
       }
     )
+
+    this.employeeForm.get('contactPreference').valueChanges.subscribe(( data:string)=>{
+      this.onContactPreferenceChange(data);
+    })
+  }
+
+
+  onContactPreferenceChange(selectedValue: string) {
+    const phoneFormControl= this.employeeForm.get('phone');
+    const emailFormControl = this.employeeForm.get('email');
+    
+    if(selectedValue === 'phone'){
+      phoneFormControl.setValidators(Validators.required);
+      emailFormControl.clearValidators();
+    }else {
+      phoneFormControl.clearValidators();
+    }
+    phoneFormControl.updateValueAndValidity();
+    emailFormControl.updateValueAndValidity();
   }
 
 
