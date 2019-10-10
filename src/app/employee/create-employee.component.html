@@ -74,9 +74,15 @@
             (blur)="logValidationErrors()"
           />
         </div>
-        <div class="help-block" *ngIf="formErrors.email">
-          {{ formErrors.email }}
+        <div class="help-block" *ngIf="formErrors.email" >
+        <span  *ngIf="employeeForm.get('email').errors.required">
+            {{formErrors.email}}
+        </span>
+        <span  *ngIf="employeeForm.get('email').errors.emailDomain">
+            Email domain should be gmail.com
+        </span>
         </div>
+
       </div>
     </div>
 
